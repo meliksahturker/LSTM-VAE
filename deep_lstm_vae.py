@@ -1,4 +1,10 @@
-def create_lstm_vae_model(batch_size, time_steps, number_of_features, int_dim, latent_dim):
+from tensorflow import keras, shape
+import tensorflow.keras.backend as K
+from tensorflow.keras.layers import(LSTM, Dense, Input, Lambda, RepeatVector, TimeDistributed)
+from tensorflow.keras.losses import mse
+from tensorflow.keras.models import Model
+
+def create_lstm_vae_model(time_steps, number_of_features, int_dim, latent_dim):
     def vae_sampling(args):
         z_mean, z_log_sigma = args
         batch_size = shape(z_mean)[0]
@@ -30,13 +36,7 @@ def create_lstm_vae_model(batch_size, time_steps, number_of_features, int_dim, l
     output = decoder(encoder(input_x)[2])
     lstm_vae = keras.Model(input_x, output, name = 'lstm_vae')
 
-    
     # Loss
-    xent_loss = mse(input_x, output)
-    kl_loss = - 0.5 * K.mean(1 + z_log_sigma - K.square(z_mean) - K.exp(z_log_sigma))
-    vae_loss = K.mean(xent_loss + kl_loss)
-    """
-    
     rec_loss = K.mean(mse(input_x, output)) * number_of_features
     kl_loss = - 0.5 * K.mean(1 + z_log_sigma - K.square(z_mean) - K.exp(z_log_sigma))
     vae_loss =  rec_loss + kl_loss
