@@ -28,8 +28,7 @@ def create_lstm_vae_model(time_steps, number_of_features, int_dim, latent_dim):
     decoder_repeated = RepeatVector(time_steps)(decoder_input)
     decoder_LSTM_int = LSTM(int_dim, return_sequences = True)(decoder_repeated)
     decoder_LSTM = LSTM(number_of_features, return_sequences = True)(decoder_LSTM_int)
-    decoder_dense1 = TimeDistributed(Dense(number_of_features * 2))(decoder_LSTM)
-    decoder_output = TimeDistributed(Dense(number_of_features))(decoder_dense1)
+    decoder_output = TimeDistributed(Dense(number_of_features))(decoder_LSTM)
     decoder = Model(decoder_input, decoder_output)
 
     # VAE
