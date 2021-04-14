@@ -6,7 +6,7 @@ Deep LSTM Variational AutoEncoder
 
 Implemented in Keras.
 
-Most of the implementations on the internet are either wrong, or they do not work with batch size greater than 1.
+Most of the implementations on the internet are either wrong, or they do not work with batch size greater than 1, because their loss function is wrong.
 
 This one has right implementation and cost function for batch training.
 
